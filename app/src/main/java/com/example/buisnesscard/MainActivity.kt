@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -42,6 +44,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun buisnessCard() {
 
@@ -50,55 +53,77 @@ fun buisnessCard() {
     var mail= painterResource(id = R.drawable.ic_baseline_email_24)
 
     var img = painterResource(R.drawable.android_logo)
-    Column(
+
+    // Use a LazyColumn instead of Column, and specify its height
+    //it is used to sho a list of large data items
+    // it works only for those lists items which are currently showing up
+    // and recycle those  which got scrolled up
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
-
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 
-    ){
-        Image(painter = img,
-            contentDescription = null,
-            modifier = Modifier.padding(8.dp).background(Color.White)
-        )
-        Text(
-            text= stringResource(id = R.string.name),
-            fontSize = 34.sp,
-            fontWeight = FontWeight.ExtraBold,
-            modifier = Modifier.padding(16.dp).background(Color.White)
-        )
-        Text(
-            text= stringResource(id = R.string.Domain),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier.padding(16.dp).background(Color.White)
-        )
-        Card(contact, stringResource(id = R.string.contct),)
-        Card(share, stringResource(id = R.string.shareing))
-        Card(mail, stringResource(id = R.string.mail))
+    ) {
+        item {
+            Image(painter = img,
+                contentDescription = null,
+                modifier = Modifier.padding(bottom = 8.dp,top = 12.dp)
+                    .background(Color.White)
+                    .fillMaxWidth()
+                    .size(200.dp)
+
+            )
+            Text(
+                text= stringResource(id = R.string.name),
+                fontSize = 34.sp,
+                fontWeight = FontWeight.ExtraBold,
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text= stringResource(id = R.string.Domain),
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(top=16.dp,bottom=108.dp)
+            )
+            // Use a Column instead of a Row for the contact, share, and mail cards
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(32.dp)
+                    .background(Color.White)
+            ) {
+                Card(contact, stringResource(id = R.string.contct),)
+                Card(share, stringResource(id = R.string.shareing))
+                Card(mail, stringResource(id = R.string.mail))
+            }
+        }
     }
 }
+
+
 
 @Composable
 fun Card(icon : Painter , detail:String){
 
     // just for the second card to present contact details and all
     Row(
-        modifier=Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     )
     {
-        Icon(painter =icon ,
-            contentDescription =null,
-            modifier = Modifier.scale(1f).background(Color.White)
-        )
-        Text(
-            text = detail,
-            fontSize = 20.sp,
-            modifier = Modifier.scale(1f).background(Color.White)
-        )
+            Icon(painter =icon ,
+                contentDescription =null,
+                modifier = Modifier.scale(1f).background(Color.White).padding(start=12.dp)
+            )
+            Text(
+                text = detail,
+                fontSize = 20.sp,
+                modifier = Modifier.scale(1f).background(Color.White)
+            )
+
+
     }
 }
 
